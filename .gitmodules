@@ -1,0 +1,6 @@
+[submodule "app"]
+	path = app
+	url = https://github.com/todo-ng-nest/app.git
+[submodule "server"]
+	path = server
+	url = https://github.com/todo-ng-nest/server.git

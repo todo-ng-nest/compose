@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  frontend:
+    hostname: todo.app
+    container_name: todo.app
+    image: todo.app
+    build:
+      context: ./app
+      dockerfile: Dockerfile.prod
+    ports:
+      - 8080:80
+    environment:
+      API_URL: http://backend:3000
+    depends_on:
+      - backend
+
+  backend:
+    hostname: api.todo.app
+    container_name: api.todo.app
+    image: api.todo.app
+    build:
+      context: ./server
+      dockerfile: Dockerfile.prod
+    ports:
+      - 3000:3000
+    environment:
+      DB_URL: mongodb://db/todo
+    depends_on:
+      - db
+
+  db:
+    hostname: db.todo.app
+    container_name: db.todo.app
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - todo:/data/db
+
+volumes:
+  todo:

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-d
+  labels:
+    app: todo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo
+  template:
+    metadata:
+      labels:
+        app: todo
+    spec:
+      containers:
+        - name: todo-app
+          image: abarchibody/todo-app:2
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-s
+spec:
+  selector:
+    app: todo-d
+  type: NodePort
+  ports:
+    - protocol: TCP
+      name: tcp-80
+      port: 8080
+      targetPort: 80
+      nodePort: 30000
